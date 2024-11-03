@@ -1,0 +1,30 @@
+/* media-queries.css */
+
+/* Media Query untuk perangkat kecil */
+@media (max-width: 768px) {
+    body {
+        background-color: lightblue; /* Contoh perubahan warna latar belakang */
+    }
+    h1 {
+        font-size: 1.5rem; /* Ukuran font lebih kecil */
+    }
+}
+
+/* Media Query untuk gambar responsif */
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Media Query untuk kelas kustom */
+@media (min-width: 576px) {
+    .custom-class {
+        padding: 20px; /* Padding untuk layar kecil */
+    }
+}
+
+@media (min-width: 992px) {
+    .custom-class {
+        padding: 40px; /* Padding untuk layar besar */
+    }
+}

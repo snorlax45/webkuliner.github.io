@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Premium - Restoran Lezat</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaANa6zI4m0F0pY+f0hHnxN1oBbBcoF0JfJ6Ef2LxkF3K2j5AioD1ycUzpN" crossorigin="anonymous">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <style>
+           /* General styling */
+           body {
+               font-family: Arial, sans-serif;
+               min-height: 100vh;
+               margin: 0;
+               background-color: #f7f7f7;
+               display: flex;
+               flex-direction: column;
+               align-items: center;
+               justify-content: center;
+           }
+
+           /* Navbar styling */
+           .navbar {
+               width: 100%;
+               padding: 0.5rem;
+               background-color: #f8f9fa;
+           }
+         .navbar-nav .nav-link {
+             padding: 0.5rem 1rem; /* Ubah padding sesuai kebutuhan */
+             margin-right: 5px; /* Tambahkan margin kanan untuk jarak antar link */
+             transition: background-color 0.3s ease;
+             border-radius: 5px;
+         }
+
+           .nav-link {
+               border-radius: 5px;
+               transition: background-color 0.3s, box-shadow 0.3s;
+           }
+           .nav-link:hover {
+               background-color: rgba(0, 0, 0, 0.1);
+               box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+           }
+           .navbar-nav .nav-link.active {
+               background-color: rgba(0, 0, 0, 0.2);
+               color: #fff;
+           }
+           /* Center the login form */
+           .login-container {
+               width: 300px;
+               padding: 20px;
+               background-color: #ffffff;
+               box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+               border-radius: 8px;
+               text-align: center;
+               margin-top: 20px;
+           }
+
+           .login-container h2 {
+               margin-bottom: 20px;
+           }
+
+           .label-input-container {
+               display: flex;
+               align-items: center;
+               gap: 10px;
+               margin-bottom: 15px;
+               justify-content: center;
+           }
+
+           label {
+               width: 80px;
+               text-align: right;
+               font-size: 14px;
+               color: #333;
+           }
+
+           input[type="email"],
+           input[type="password"] {
+               width: 100%;
+               padding: 8px;
+               border: 1px solid #ddd;
+               border-radius: 4px;
+               font-size: 14px;
+           }
+
+           .login-btn {
+               width: 100%;
+               padding: 10px;
+               font-size: 16px;
+               color: #fff;
+               background-color: #007bff;
+               border: none;
+               border-radius: 4px;
+               cursor: pointer;
+               margin-top: 10px;
+           }
+
+           .login-btn:hover {
+               background-color: #0056b3;
+           }
+
+           .register-link {
+               margin-top: 15px;
+               display: block;
+               font-size: 14px;
+           }
+
+           .register-link a {
+               color: #007bff;
+               text-decoration: none;
+           }
+
+           .register-link a:hover {
+               text-decoration: underline;
+           }
+       </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Restoran Lezat</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html"><i class="bi bi-house"></i> Beranda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="video.html"><i class="bi bi-film"></i> Video</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="checkout.html"><i class="bi bi-cart"></i> Checkout</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="statistics.html"><i class="bi bi-graph-up"></i> Statistik</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto"> <!-- Menambahkan class ms-auto untuk menggeser ke kanan -->
+                    <li class="nav-item">
+                        <a class="nav-link active" href="login.html"><i class="bi bi-lock"></i> Login</a> <!-- Tukar posisi -->
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html"><i class="bi bi-person"></i> About Me</a> <!-- Tukar posisi -->
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Form -->
+    <div class="d-flex justify-content-center align-items-center flex-grow-1">
+        <div class="login-container">
+            <h2>Login Member</h2>
+
+            <!-- Email input -->
+            <div class="label-input-container">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Masukkan email">
+            </div>
+
+            <!-- Password input -->
+            <div class="label-input-container">
+                <label for="password">Kata Sandi</label>
+                <input type="password" id="password" name="password" placeholder="Masukkan kata sandi">
+            </div>
+
+            <!-- Login button -->
+            <button class="login-btn" onclick="login()">Login</button>
+
+            <!-- Register link -->
+            <div class="register-link">
+                Belum punya akun? <a href="#">Daftar di sini</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center mt-4">
+        <p>&copy; 2024 Restoran Lezat. Kebijakan Privasi | Syarat dan Ketentuan</p>
+    </footer>
+    
+    <!-- Bootstrap JavaScript (required for toggle button functionality) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeo7F5yLD7V/a0O7EN5VRH5j5UbjIVqzB3q4EyLOi6hkzA9W" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JavaScript for Login Validation -->
+    <script>
+
+
+        function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Email validation to check if it contains '@'
+            if (!email.includes("@")) {
+                alert("Masukkan email dengan benar.");
+                return;
+            }
+
+            // Static email and password validation
+            if (email === "dibimbing@gmail.com" && password === "dibimbing") {
+                alert("Login berhasil!");
+                window.location.href = "index.html"; // Redirect to homepage or another page
+            } else {
+                alert("Email atau kata sandi salah.");
+            }
+        }
+    </script>
+</body>
+</html>

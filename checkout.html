@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Restoran Lezat</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        .navbar {
+            width: 100%;
+            padding: 0.5rem;
+            background-color: #f8f9fa;
+        }
+        .navbar-nav .nav-link {
+            padding: 0.5rem 1rem;
+            margin-right: 5px;
+            transition: background-color 0.3s ease;
+            border-radius: 5px;
+        }
+        .navbar-nav .nav-link.active {
+            background-color: rgba(0, 0, 0, 0.2);
+            color: #fff;
+        }
+        .nav-link {
+            border-radius: 5px;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        .nav-link:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="index.html">Restoran Lezat</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html"><i class="bi bi-house"></i> Beranda</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="video.html"><i class="bi bi-film"></i> Video</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="checkout.html"><i class="bi bi-cart"></i> Checkout</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="statistics.html"><i class="bi bi-graph-up"></i> Statistik</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="login.html"><i class="bi bi-lock"></i> Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about.html"><i class="bi bi-person"></i> About Me</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <h1 class="text-center">Checkout</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Resep</th>
+                <th>Jumlah</th>
+                <th>Harga</th>
+                <th>Total</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody id="cart-items"></tbody>
+    </table>
+
+    <div class="text-center">
+        <h3>Total Pembayaran: <span id="final-total">Rp 0,-</span></h3>
+        <button class="btn btn-primary" id="checkout-button" onclick="checkout()">Bayar</button>
+    </div>
+
+    <!-- Nota Pembelian Modal -->
+    <div class="modal fade" id="receiptModal" tabindex="-1" aria-labelledby="receiptModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="receiptModalLabel">Nota Pembelian</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center">
+                        <h5>Restoran Lezat</h5>
+                        <p>Alamat: Jl. Makanan No. 1, Kota Lezat</p>
+                        <p>Email: info@restoranlezat.com</p>
+                        <hr>
+                    </div>
+                    <div id="receipt-content"></div>
+                    <div class="text-end">
+                        <strong>Total Pembayaran: <span id="receipt-total">Rp 0,-</span></strong>
+                    </div>
+                    <hr>
+                    <div class="text-start">
+                        <p>Bill Number: <span id="bill-number"></span></p>
+                        <p>Waktu Pembelian: <span id="purchase-time"></span></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="buyAgain()">Beli Lagi</button>
+                    <button type="button" class="btn btn-secondary" id="print-button" onclick="printReceipt()">Cetak Nota</button>
+                    <a href="index.html" class="btn btn-secondary">Kembali ke Beranda</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Sukses Pembelian -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">Pembelian Sukses</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Terima kasih telah melakukan pembelian!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="buyAgain()">Beli Lagi</button>
+                    <a href="index.html" class="btn btn-secondary">Kembali ke Beranda</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="text-center mt-4">
+    <p>&copy; 2024 Restoran Lezat. Kebijakan Privasi | Syarat dan Ketentuan</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Data menu
+    const menuItems = [
+        { name: "Nasi Goreng", price: 30000 },
+        { name: "Lasagna Daging", price: 70000 },
+        { name: "Ayam Kemangi", price: 10000 },
+        { name: "Gado-Gado", price: 25000 },
+        { name: "Sate Ayam", price: 35000 }
+    ];
+
+    const quantities = menuItems.reduce((acc, item) => {
+        acc[item.name] = 0;
+        return acc;
+    }, {});
+
+    const prices = menuItems.reduce((acc, item) => {
+        acc[item.name] = item.price;
+        return acc;
+    }, {});
+
+    // Fungsi untuk memformat harga
+    function formatCurrency(value) {
+        return "Rp " + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ",-";
+    }
+
+    function displayMenu() {
+        const cartItems = document.getElementById('cart-items');
+        menuItems.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${item.name}</td>
+                <td>
+                    <button class="btn btn-secondary btn-sm" onclick="updateQuantity('decrease', '${item.name}')">-</button>
+                    <span id="quantity-${item.name}">0</span>
+                    <button class="btn btn-secondary btn-sm" onclick="updateQuantity('increase', '${item.name}')">+</button>
+                </td>
+                <td>${formatCurrency(item.price)}</td>
+                <td id="total-price-${item.name}">${formatCurrency(0)}</td>
+                <td><button class="btn btn-danger" onclick="removeItem('${item.name}')">Hapus</button></td>
+            `;
+            cartItems.appendChild(row);
+        });
+    }
+
+    function updateQuantity(action, item) {
+        if (action === 'increase') {
+            quantities[item]++;
+        } else if (action === 'decrease' && quantities[item] > 0) {
+            quantities[item]--;
+        }
+        updateDisplay();
+    }
+
+    function updateDisplay() {
+        let total = 0;
+        for (const item of menuItems) {
+            const qty = quantities[item.name];
+            document.getElementById(`quantity-${item.name}`).innerText = qty;
+            const itemTotal = qty * prices[item.name];
+            document.getElementById(`total-price-${item.name}`).innerText = formatCurrency(itemTotal);
+            total += itemTotal;
+        }
+        document.getElementById('final-total').innerText = formatCurrency(total);
+    }
+
+    function removeItem(item) {
+        quantities[item] = 0; // Set quantity to 0
+        updateDisplay();
+    }
+
+    function checkout() {
+        const totalQuantity = Object.values(quantities).reduce((sum, qty) => sum + qty, 0);
+
+        if (totalQuantity === 0) {
+            alert('Minimal order adalah 1 pembelian.');
+            return;
+        }
+
+        // Generate Bill Number
+        const billNumber = Math.floor(100000 + Math.random() * 900000);
+        const purchaseTime = new Date().toLocaleString();
+
+        // Tampilkan nota pembelian
+        let receiptContent = '<h5>Detail Pembelian:</h5><ul>';
+        for (const item of menuItems) {
+            const qty = quantities[item.name];
+            if (qty > 0) {
+                const itemTotal = qty * prices[item.name];
+                receiptContent += `<li>${item.name}: ${qty} x ${formatCurrency(prices[item.name])} = ${formatCurrency(itemTotal)}</li>`;
+            }
+        }
+        const totalPayment = Object.values(quantities).reduce((sum, qty, index) => sum + (qty * Object.values(prices)[index]), 0);
+        receiptContent += `</ul>`;
+
+        document.getElementById('receipt-content').innerHTML = receiptContent;
+        document.getElementById('receipt-total').innerText = formatCurrency(totalPayment);
+        document.getElementById('bill-number').innerText = billNumber;
+        document.getElementById('purchase-time').innerText = purchaseTime;
+
+        const receiptModal = new bootstrap.Modal(document.getElementById('receiptModal'));
+        receiptModal.show();
+
+        // Enable the print button
+        document.getElementById('print-button').disabled = false;
+
+        // Clear quantities after checkout
+        document.getElementById('checkout-button').onclick = function() {
+            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            successModal.show();
+
+            // Clear quantities after purchase
+            for (const item of menuItems) {
+                quantities[item.name] = 0;
+            }
+            updateDisplay();
+        };
+    }
+
+    function buyAgain() {
+        location.reload(); // Refresh halaman
+    }
+
+    function printReceipt() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({
+            orientation: "portrait",
+            unit: "mm",
+            format: "a5",
+            putOnlyUsedFonts: true,
+            floatPrecision: 16
+        });
+
+        doc.setFontSize(20);
+        doc.text("Restoran Lezat", 14, 20);
+        doc.setFontSize(12);
+        doc.text("Alamat: Jl. Makanan No. 1, Kota Lezat", 14, 30);
+        doc.text("Email: info@restoranlezat.com", 14, 35);
+        doc.text("====================================", 14, 40);
+
+        let receiptContent = 'Detail Pembelian:\n\n';
+        for (const item of menuItems) {
+            const qty = quantities[item.name];
+            if (qty > 0) {
+                const itemTotal = qty * prices[item.name];
+                receiptContent += `${item.name}: ${qty} x ${formatCurrency(prices[item.name]).replace('Rp ', '').replace(',-', '')} = ${formatCurrency(itemTotal).replace('Rp ', '').replace(',-', '')}\n`;
+            }
+        }
+        const totalPayment = Object.values(quantities).reduce((sum, qty, index) => sum + (qty * Object.values(prices)[index]), 0);
+        receiptContent += `\nTotal Pembayaran: ${formatCurrency(totalPayment).replace('Rp ', '').replace(',-', '')}`;
+        receiptContent += `\nBill Number: ${document.getElementById('bill-number').innerText}`;
+        receiptContent += `\nWaktu Pembelian: ${document.getElementById('purchase-time').innerText}`;
+
+        doc.text(receiptContent, 14, 50);
+        doc.save("nota_pembelian.pdf");
+    }
+
+    // Initialize display
+    displayMenu();
+    updateDisplay();
+</script>
+</body>
+</html>

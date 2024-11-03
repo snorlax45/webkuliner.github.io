@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restoran Lezat</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+
+    .navbar {
+      width: 100%;
+      padding: 0.5rem;
+      background-color: #f8f9fa;
+    }
+    .navbar-nav .nav-link {
+      padding: 0.5rem 1rem; /* Ubah padding sesuai kebutuhan */
+      margin-right: 5px; /* Tambahkan margin kanan untuk jarak antar link */
+      transition: background-color 0.3s ease;
+      border-radius: 5px;
+    }
+    .navbar-nav .nav-link.active {
+      background-color: rgba(0, 0, 0, 0.2);
+      color: #fff;
+    }
+    .nav-link {
+        border-radius: 5px;
+        transition: background-color 0.3s, box-shadow 0.3s;
+    }
+    .nav-link:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+        .carousel-item img {
+            height: 400px;
+            object-fit: cover;
+        }
+        .carousel-control-prev, .carousel-control-next {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .carousel-control-prev-icon, .carousel-control-next-icon {
+            width: 30px; /* Menyesuaikan lebar ikon panah */
+            height: 30px; /* Menyesuaikan tinggi ikon panah */
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+        .carousel-control-prev-icon {
+            background-image: url('https://cdn-icons-png.flaticon.com/512/271/271220.png');
+        }
+        .carousel-control-next-icon {
+            background-image: url('https://cdn-icons-png.flaticon.com/512/271/271228.png');
+        }
+        .carousel-indicators button {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+    </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+      <a class="navbar-brand" href="index.html">Restoran Lezat</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+              <li class="nav-item">
+                  <a class="nav-link active" href="index.html"><i class="bi bi-house"></i> Beranda</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="video.html"><i class="bi bi-film"></i> Video</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="checkout.html"><i class="bi bi-cart"></i> Checkout</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="statistics.html"><i class="bi bi-graph-up"></i> Statistik</a>
+              </li>
+          </ul>
+          <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                  <a class="nav-link" href="login.html"><i class="bi bi-lock"></i> Login</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="about.html"><i class="bi bi-person"></i> About Me</a>
+              </li>
+          </ul>
+      </div>
+  </div>
+  </nav>
+
+<div class="container">
+    <section id="home" class="mt-4">
+        <h1 class="text-center">Selamat Datang di Restoran Lezat</h1>
+
+        <div id="recipeCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+            <div class="carousel-inner" id="carouselItems"></div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#recipeCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#recipeCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            <div class="carousel-indicators" id="carouselIndicators"></div>
+        </div>
+    </section>
+</div>
+
+<footer class="text-center mt-4">
+    <p>&copy; 2024 Restoran Lezat. Kebijakan Privasi | Syarat dan Ketentuan</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+    const images = [
+        'images/hero-image.jpg',
+        'images/recipe-image-1.jpg',
+        'images/recipe-image-2.jpg',
+        'images/recipe-image-3.jpg',
+        'images/recipe-image-4.jpg',
+        'images/recipe-image-5.jpg'
+    ];
+
+    const carouselItems = document.getElementById('carouselItems');
+    const carouselIndicators = document.getElementById('carouselIndicators');
+
+    if (images.length === 0) {
+        console.error('No images provided for carousel.');
+    } else {
+        images.forEach((image, index) => {
+            // Carousel Items
+            const carouselItem = document.createElement('div');
+            carouselItem.className = `carousel-item${index === 0 ? ' active' : ''}`;
+            carouselItem.innerHTML = `<img src="${image}" class="d-block w-100" alt="Makanan Lezat">`;
+            carouselItems.appendChild(carouselItem);
+
+            // Carousel Indicators
+            const indicator = document.createElement('button');
+            indicator.type = 'button';
+            indicator.setAttribute('data-bs-target', '#recipeCarousel');
+            indicator.setAttribute('data-bs-slide-to', index);
+            indicator.className = `${index === 0 ? 'active' : ''}`;
+            indicator.setAttribute('aria-current', index === 0 ? 'true' : 'false');
+            indicator.setAttribute('aria-label', `Slide ${index + 1}`);
+            carouselIndicators.appendChild(indicator);
+        });
+    }
+</script>
+
+</body>
+</html>
